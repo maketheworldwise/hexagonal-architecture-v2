@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Welcome to hexagonal-architecture-v2 👋
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> For the purpose of representing architectural structure rather than verifying functionality, this project may not actually be executable.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+> I have designed a structure for a simple API that allows user registration and retrieval of members. It is a customized architecture, not hexagonal. I recommand to use [hexagonal-architecture-v1](https://github.com/maketheworldwise/hexagonal-architecture-v1).
 
-## Description
+## Table
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+![](./docs/images/table.png)
 
-## Installation
+## Structure
 
-```bash
-$ npm install
+```
+.
+├── application
+│   ├── command
+│   │   ├── join-member-address.command.ts
+│   │   └── join-member.command.ts
+│   ├── port
+│   │   ├── i.create-member-address.port.ts
+│   │   └── i.create-member.port.ts
+│   ├── query
+│   │   └── get-member-info.query.ts
+│   └── usecase
+│       └── join-member.service.ts
+├── domain
+│   ├── member-addresses.ts
+│   └── members.ts
+├── infra
+│   ├── adapter
+│   │   ├── create-member-address.adapter.ts
+│   │   ├── create-member.adapter.ts
+│   │   └── read-member.adapter.ts
+│   └── db
+│       ├── entity
+│       │   ├── member-addresses.entity.ts
+│       │   └── members.entity.ts
+│       ├── mapper
+│       │   ├── member-addresses.mapper.ts
+│       │   └── member.mapper.ts
+│       └── repository
+│           ├── member-addresses.repository.ts
+│           └── members.repository.ts
+├── interface
+│   ├── controller
+│   │   ├── dto
+│   │   │   └── join-member.dto.ts
+│   │   ├── join-member.controller.ts
+│   │   └── my-page.controller.ts
+│   └── external
+│       ├── i.get-member-info.query.ts
+│       └── i.join-member.usecase.ts
+└── members.module.ts
 ```
 
-## Running the app
+## Result
 
-```bash
-# development
-$ npm run start
+```
+POST http://127.0.0.1:8080/join
+{
+    "name": "hello",
+    "email": "hello@example.com",
+    "gender": "man",
+    "age": 26,
+    "zipcode": "00000",
+    "address1": "hello address1",
+    "address2": "hello address2"
+}
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+GET http://127.0.0.1:8080/me/2
+{
+    "name": "world",
+    "email": "world@example.com",
+    "gender": "woman",
+    "age": 26,
+    "zipcode": "11111",
+    "address1": "world address1",
+    "address2": "world address2"
+}
 ```
 
-## Test
+## Author
 
-```bash
-# unit tests
-$ npm run test
+👤 **Kevin Ahn**
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+* Github: [@maketheworldwise](https://github.com/maketheworldwise)
